@@ -1,0 +1,54 @@
+# name: Publish Packages
+
+# on:
+#   push:
+#     branches:
+#       - main
+#   workflow_dispatch:
+
+# jobs:
+#   publish:
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       - uses: actions/checkout@v3
+      
+#       - uses: actions/setup-node@v3
+#         with:
+#           node-version: '16'
+#           registry-url: 'https://npm.pkg.github.com'
+#           scope: '@connect-the-dots'
+
+#       - name: Configure npm
+#         run: |
+#           echo "@connect-the-dots:registry=https://npm.pkg.github.com" >> ~/.npmrc
+#           echo "//npm.pkg.github.com/:_authToken=${{ secrets.DEPLOY_TOKEN }}" >> ~/.npmrc
+
+#       - name: Install root dependencies
+#         run: npm ci
+        
+#       # Build and publish contracts first
+#       - name: Build contracts
+#         working-directory: src/contracts
+#         run: |
+#           npm run clean
+#           npm run build
+          
+#       - name: Publish contracts
+#         working-directory: src/contracts
+#         run: npm publish --access public
+#         env:
+#           NODE_AUTH_TOKEN: ${{secrets.DEPLOY_TOKEN}}
+
+#       # Then build and publish domain
+#       - name: Build domain
+#         working-directory: src/domain
+#         run: |
+#           npm run clean
+#           npm run build
+          
+#       - name: Publish domain
+#         working-directory: src/domain
+#         run: npm publish --access public
+#         env:
+#           NODE_AUTH_TOKEN: ${{secrets.DEPLOY_TOKEN}} 

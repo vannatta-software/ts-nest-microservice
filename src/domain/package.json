@@ -1,0 +1,12 @@
+{
+  "name": "@connect-the-dots/example-domain",
+  "version": "1.0.0",
+  "main": "index.js",
+  "types": "index.ts",
+  "private": true,
+  "dependencies": {
+    "@vannatta-software/ts-core": "^1.2.0",
+    "@vannatta-software/ts-domain": "^1.2.0",
+    "ajv": "^8.17.1"
+  }
+} 

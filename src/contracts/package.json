@@ -1,0 +1,13 @@
+{
+  "name": "@connect-the-dots/example-contracts",
+  "version": "1.0.0",
+  "main": "index.js",
+  "types": "index.ts",
+  "private": true,
+  "dependencies": {
+    "@connect-the-dots/chat-domain": "^1.0.0",
+    "@vannatta-software/ts-core": "^1.2.0",
+    "axios": "^1.7.8",
+    "socket.io-client": "^4.7.4"
+  }
+} 
