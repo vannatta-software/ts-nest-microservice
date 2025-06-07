@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "types": "index.ts",
-  "private": true,
+  "private": false,
   "dependencies": {
     "@vannatta-software/ts-core": "^1.2.0",
     "@vannatta-software/ts-domain": "^1.2.0",

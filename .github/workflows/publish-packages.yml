@@ -1,0 +1,46 @@
+name: Automated Package Release
+
+on:
+  push:
+    branches:
+      - main # Trigger on any push to the main branch
+  workflow_dispatch: # Allows manual triggering
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          # Fetch all history for semantic-release to analyze commit messages
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20' # Your Node.js version
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build packages
+        run: npm run build # Ensure all packages are built before release
+
+      - name: Semantic Release
+        uses: cycjimmy/semantic-release-action@v4 # Use the semantic-release GitHub Action
+        with:
+          # Configuration for semantic-release to publish multiple packages
+          # This will require a .releaserc.json or similar config file
+          # to tell semantic-release about your workspaces.
+          extra_plugins: |
+            @semantic-release/npm
+            @semantic-release/git
+            @semantic-release/changelog
+            @semantic-release/github
+        env:
+          # NPM_TOKEN is used by @semantic-release/npm to publish to npm.js
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          # GITHUB_TOKEN is used by @semantic-release/github to create releases/tags
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
