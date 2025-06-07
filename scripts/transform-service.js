@@ -74,7 +74,7 @@ async function setupNewService() {
 
     if (!newServiceName || !repoUrl) {
         console.error('Usage:');
-        console.error('  node scripts/transform/setup-new-service.js <new-service-name> <repo-url> [--public]');
+        console.error('  node scripts/transform.js <new-service-name> <repo-url> [--public]');
         console.error('Or, set SERVICE_NAME and REPO_NAME in your .env file.');
         process.exit(1);
     }
