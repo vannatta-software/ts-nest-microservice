@@ -1,5 +1,5 @@
 {
-  "name": "@connect-the-dots/example-domain",
+  "name": "@ts-nest-microservice/domain",
   "version": "1.0.0",
   "main": "index.js",
   "types": "index.ts",

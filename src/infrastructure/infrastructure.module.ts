@@ -1,3 +1,4 @@
+import { Example } from '@domain/Example';
 import { Module } from '@nestjs/common';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { MongooseModule } from '@nestjs/mongoose';
@@ -5,14 +6,17 @@ import { BaseEventBus, EventBus } from './cqrs/event.bus';
 import { HandlerRegistry } from './cqrs/handler.registry';
 import { Mediator } from './cqrs/mediator.service';
 import { DatabaseContext } from './database/database.context';
+import { Mongo } from './database/mongo.schema';
+import { AllExceptionsFilter } from './filters/exception.filter';
 import { NotificationGateway } from './websockets/notification.gateway';
 import { NotificationService } from './websockets/notification.service';
-import { Example } from '@domain/Example';
-import { Mongo } from './database/mongo.schema';
-import { AllExceptionsFilter, ApiException, NotFoundException } from './filters/exception.filter';
+import { ConfigModule } from '@nestjs/config';
+
+console.log(process.env.MONGO_CONNECTION, process.env.MONGO_INITDB_ROOT_USERNAME, process.env.MONGO_INITDB_ROOT_PASSWORD, process.env.MONGO_INITDB_DATABASE);   
 
 @Module({
     imports: [
+        ConfigModule.forRoot(),
         MongooseModule.forRoot(process.env.MONGO_CONNECTION, {
           user: process.env.MONGO_INITDB_ROOT_USERNAME,
           pass: process.env.MONGO_INITDB_ROOT_PASSWORD,

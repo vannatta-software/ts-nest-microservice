@@ -1,4 +1,4 @@
-import { Example, ExampleType} from '@connect-the-dots/issue-domain';
+import { Example, ExampleType} from '@ts-nest-microservice/domain';
 import { Enumeration, Validation } from "@vannatta-software/ts-domain";
 import { Command, UUID_VALIDATION } from './helpers/CqrsTypes';
 

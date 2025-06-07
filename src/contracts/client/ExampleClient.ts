@@ -1,4 +1,4 @@
-import { Example, Events } from '@connect-the-dots/issue-domain';
+import { Example, Events } from '@ts-nest-microservice/domain';
 import * as Commands from '../Commands';
 import * as Queries from '../Queries';
 import { DTO } from '../helpers/CqrsTypes';

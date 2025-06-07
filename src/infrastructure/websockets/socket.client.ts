@@ -1,6 +1,6 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { io, Socket } from 'socket.io-client';
-import { IWebSocket } from '@connect-the-dots/chat-contracts';
+import { IWebSocket } from '@ts-nest-microservice/contracts';
 import { ClassType, StringUtils } from '@vannatta-software/ts-core';
 
 @Injectable()

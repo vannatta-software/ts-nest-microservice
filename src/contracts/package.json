@@ -1,5 +1,5 @@
 {
-  "name": "@connect-the-dots/example-contracts",
+  "name": "@ts-nest-microservice/contracts",
   "version": "1.0.0",
   "main": "index.js",
   "types": "index.ts",

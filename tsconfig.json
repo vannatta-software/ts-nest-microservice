@@ -22,8 +22,8 @@
       "@contracts/*": ["src/contracts/*"],
       "@api/*": ["src/api/*"],
       "@infrastructure/*": ["src/infrastructure/*"],
-      "@connect-the-dots/issue-domain": ["src/domain/index"],
-      "@connect-the-dots/issue-contracts": ["src/contracts/index"],
+      "@ts-nest-microservice/domain": ["src/domain/index"],
+      "@ts-nest-microservice/contracts": ["src/contracts/index"],
     }
   },
   "include": [

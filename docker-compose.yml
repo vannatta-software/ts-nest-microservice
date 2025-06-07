@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+
+  mongo:
+    image: mongo:latest
+    environment:
+      - MONGO_CONNECTION=${MONGO_CONNECTION}
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+    ports:
+      - "27017:27017"
+
+volumes:
+  mongodb_data:
