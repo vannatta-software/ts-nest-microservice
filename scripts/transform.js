@@ -65,7 +65,7 @@ async function setupNewService() {
         try {
             require('dotenv').config();
             newServiceName = process.env.SERVICE_NAME;
-            repoUrl = process.env.REPO_NAME; // Assuming REPO_NAME in .env is the URL
+            repoUrl = process.env.REPO_URL; // Assuming REPO_URL in .env is the URL
             makePublic = process.env.MAKE_PUBLIC === 'true'; // Optional: read --public from .env
         } catch (e) {
             console.warn('dotenv not found or .env file not configured. Falling back to arguments.');
@@ -75,7 +75,7 @@ async function setupNewService() {
     if (!newServiceName || !repoUrl) {
         console.error('Usage:');
         console.error('  node scripts/transform.js <new-service-name> <repo-url> [--public]');
-        console.error('Or, set SERVICE_NAME and REPO_NAME in your .env file.');
+        console.error('Or, set SERVICE_NAME and REPO_URL in your .env file.');
         process.exit(1);
     }
 
@@ -127,13 +127,6 @@ async function setupNewService() {
             [`@${oldServiceName}/domain`, `@${newServiceName}/domain`],
             [`@${oldServiceName}/contracts`, `@${newServiceName}/contracts`]
         ]);
-    }
-
-    // 3. Cleanup src/api/examples
-    const examplesDirPath = path.join(process.cwd(), 'src/api/examples');
-    if (fs.existsSync(examplesDirPath)) {
-        fs.rmSync(examplesDirPath, { recursive: true, force: true });
-        console.log(`Deleted: ${examplesDirPath}`);
     }
 
     // 4. Git Operations
