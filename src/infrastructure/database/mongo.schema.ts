@@ -1,8 +1,8 @@
-import { GlobalIdentifier } from '@vannatta-software/ts-domain';
-import { ReflectionUtils, SchemaMetadataKey } from '@vannatta-software/ts-core';
-import { v4 as uuid } from "uuid";
+import { ReflectionUtils, SchemaMetadataKey } from '@vannatta-software/ts-utils-core';
+import { GlobalIdentifier } from '@vannatta-software/ts-utils-domain';
 import { Schema } from 'mongoose';
 import 'reflect-metadata';
+import { v4 as uuid } from "uuid";
 
 interface IMetaprop {
     propertyKey: string,

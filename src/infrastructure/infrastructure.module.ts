@@ -12,8 +12,6 @@ import { NotificationGateway } from './websockets/notification.gateway';
 import { NotificationService } from './websockets/notification.service';
 import { ConfigModule } from '@nestjs/config';
 
-console.log(process.env.MONGO_CONNECTION, process.env.MONGO_INITDB_ROOT_USERNAME, process.env.MONGO_INITDB_ROOT_PASSWORD, process.env.MONGO_INITDB_DATABASE);   
-
 @Module({
     imports: [
         ConfigModule.forRoot(),

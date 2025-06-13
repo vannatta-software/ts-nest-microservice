@@ -1,46 +1,77 @@
-name: Automated Package Release
+name: Build and Publish Domain & Contracts
 
 on:
   push:
     branches:
-      - main # Trigger on any push to the main branch
-  workflow_dispatch: # Allows manual triggering
+      - main
+    paths:
+      - 'src/domain/**'
+      - 'src/contracts/**'
 
 jobs:
-  release:
+  build-and-publish-domain:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v4
-        with:
-          # Fetch all history for semantic-release to analyze commit messages
-          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20' # Your Node.js version
-          cache: 'npm'
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
 
-      - name: Install dependencies
-        run: npm install
+      - name: Install Domain Dependencies
+        run: npm i
+        working-directory: src/domain
 
-      - name: Build packages
-        run: npm run build # Ensure all packages are built before release
+      - name: Build Domain
+        run: npm run build
+        working-directory: src/domain
 
-      - name: Semantic Release
-        uses: cycjimmy/semantic-release-action@v4 # Use the semantic-release GitHub Action
-        with:
-          # Configuration for semantic-release to publish multiple packages
-          # This will require a .releaserc.json or similar config file
-          # to tell semantic-release about your workspaces.
-          extra_plugins: |
-            @semantic-release/npm
-            @semantic-release/git
-            @semantic-release/changelog
-            @semantic-release/github
+      - name: Configure npm for publishing
+        run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+
+      - name: Version Domain
+        run: npm version patch
+        working-directory: src/domain
+
+      - name: Publish Domain
+        run: npm publish --access public
+        working-directory: src/domain
         env:
-          # NPM_TOKEN is used by @semantic-release/npm to publish to npm.js
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-          # GITHUB_TOKEN is used by @semantic-release/github to create releases/tags
-          GITHUB_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+  build-and-publish-contracts:
+    runs-on: ubuntu-latest
+    needs: build-and-publish-domain
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install Contracts Dependencies
+        run: npm i
+        working-directory: src/contracts
+
+      - name: Build Contracts
+        run: npm run build
+        working-directory: src/contracts
+
+      - name: Configure npm for publishing
+        run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+
+      - name: Version Contracts
+        run: npm version patch
+        working-directory: src/contracts
+
+      - name: Publish Contracts
+        run: npm publish --access public
+        working-directory: src/contracts
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

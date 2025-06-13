@@ -2,6 +2,7 @@
   "compilerOptions": {
     "module": "commonjs",
     "declaration": true,
+    "declarationMap": true,
     "removeComments": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
@@ -9,7 +10,8 @@
     "target": "ES2021",
     "sourceMap": true,
     "outDir": "./dist",
-    "baseUrl": "./",
+    "rootDir": "./",
+    "baseUrl": ".",
     "incremental": true,
     "skipLibCheck": true,
     "strictNullChecks": false,
@@ -17,26 +19,15 @@
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
-    "paths": {
-      "@domain/*": ["src/domain/*"],
-      "@contracts/*": ["src/contracts/*"],
-      "@api/*": ["src/api/*"],
-      "@infrastructure/*": ["src/infrastructure/*"],
-      "@ts-nest-microservice/domain": ["src/domain/index"],
-      "@ts-nest-microservice/contracts": ["src/contracts/index"],
-    }
+    "composite": true
   },
-  "references": [
-    { "path": "./src/domain" },
-    { "path": "./src/contracts" }
-  ],
   "include": [
-    "./"
+    "./**/*.ts"
   ],
   "exclude": [
     "node_modules",
     "dist",
-    "src/**/*.spec.ts",
-    "src/**/*.test.ts"
+    "**/*.spec.ts",
+    "**/*.test.ts"
   ]
 }

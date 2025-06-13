@@ -1,8 +1,8 @@
 import { Injectable, Logger, Type } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { HandlerRegistry } from './handler.registry';
-import { Entity, IDomainEvent, Model } from '@vannatta-software/ts-domain';
-import Validator from '@vannatta-software/ts-core/dist/Validator';
+import { Entity, IDomainEvent, Model } from '@vannatta-software/ts-utils-domain';
+import Validator from '@vannatta-software/ts-utils-core/dist/Validator';
 import { Command, DTO, Query } from '@contracts/index';
 import { ApiException } from '../filters/exception.filter';
 

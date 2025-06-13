@@ -1,5 +1,5 @@
 import { Example } from '@ts-nest-microservice/domain';
-import { Validation } from "@vannatta-software/ts-domain";
+import { Validation } from "@vannatta-software/ts-utils-domain";
 import { Query, UUID_VALIDATION } from "./helpers/CqrsTypes";
 
 export class GetAllExamplesQuery extends Query<Example[]> {

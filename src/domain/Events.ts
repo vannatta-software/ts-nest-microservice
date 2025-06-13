@@ -1,4 +1,4 @@
-import { IDomainEvent } from "@vannatta-software/ts-domain";
+import { IDomainEvent } from "@vannatta-software/ts-utils-domain";
 import { ExampleMetadata } from "./ExampleMetadata";
 import { ExampleType } from "./ExampleType";
 import { DTO } from "@contracts/index";

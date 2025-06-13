@@ -1,4 +1,4 @@
-import { ClassType, StringUtils } from "@vannatta-software/ts-core";
+import { ClassType, StringUtils } from "@vannatta-software/ts-utils-core";
 import { Integration } from "./CqrsTypes";
 import { IEventBus } from "./EventBus";
 import { IHttpClient } from './HttpClient';

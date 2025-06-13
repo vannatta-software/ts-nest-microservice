@@ -1,7 +1,7 @@
 import { Server } from 'socket.io';
 import { Global, Injectable, Logger } from '@nestjs/common';
 import { Socket } from "socket.io";
-import { IDomainEvent } from '@vannatta-software/ts-domain';
+import { IDomainEvent } from '@vannatta-software/ts-utils-domain';
 
 export class ClientMap {
     public users: Record<string, Socket[]>;

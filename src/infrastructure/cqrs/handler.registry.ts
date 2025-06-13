@@ -1,6 +1,6 @@
 import { Inject, Injectable, Type } from '@nestjs/common';
 import * as Contracts from '@contracts/helpers/CqrsTypes';
-import { ClassType } from '@vannatta-software/ts-core';
+import { ClassType } from '@vannatta-software/ts-utils-core';
 
 export * from '@contracts/helpers/CqrsTypes';
 

@@ -1,4 +1,4 @@
-import { Enumeration } from "@vannatta-software/ts-domain";
+import { Enumeration } from "@vannatta-software/ts-utils-domain";
 
 export class ExampleType extends Enumeration {
     public static Default = new ExampleType({id: 0, name: "Default"});

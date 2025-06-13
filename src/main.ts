@@ -10,8 +10,8 @@ export class AppModule {}
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const config = new DocumentBuilder()
-    .setTitle('Chat API')
-    .setDescription('API documentation for Chats')
+    .setTitle('API')
+    .setDescription('API documentation')
     .setVersion('1.0')
     .build();
 

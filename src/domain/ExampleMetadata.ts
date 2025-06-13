@@ -1,5 +1,5 @@
-import { ValueObject } from "@vannatta-software/ts-domain";
-import { Schema, View } from "@vannatta-software/ts-core";
+import { ValueObject } from "@vannatta-software/ts-utils-domain";
+import { Schema, View } from "@vannatta-software/ts-utils-core";
 
 export class ExampleMetadata extends ValueObject {
     @Schema({ type: String })

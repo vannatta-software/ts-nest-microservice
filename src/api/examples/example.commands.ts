@@ -5,7 +5,7 @@ import { CommandHandler, ICommandHandler } from '@infrastructure/cqrs/handler.re
 import { DatabaseContext } from '@infrastructure/database/database.context';
 import { NotFoundException } from '@infrastructure/filters/exception.filter';
 import { ExampleType } from '@domain/ExampleType';
-import { UniqueIdentifier } from '@vannatta-software/ts-domain';
+import { UniqueIdentifier } from '@vannatta-software/ts-utils-domain';
 import { ExampleMetadata } from '@domain/ExampleMetadata';
 
 @CommandHandler(Contracts.CreateExampleCommand)

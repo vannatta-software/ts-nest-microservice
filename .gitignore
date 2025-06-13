@@ -1,8 +1,12 @@
 # compiled output
 /dist
 /node_modules
+**/*/node_modules
 /src/contracts/dist
 /src/domain/dist
+/dist
+**/*/dist
+**/*/package-lock.json
 
 # Logs
 logs

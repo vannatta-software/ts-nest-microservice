@@ -1,5 +1,5 @@
-import { AggregateRoot, UniqueIdentifier } from "@vannatta-software/ts-domain";
-import { Schema, View, ViewType } from "@vannatta-software/ts-core";
+import { AggregateRoot, UniqueIdentifier } from "@vannatta-software/ts-utils-domain";
+import { Schema, View, ViewType } from "@vannatta-software/ts-utils-core";
 import * as Events from "./Events";
 import { ExampleMetadata } from "./ExampleMetadata";
 import { ExampleType } from "./ExampleType";

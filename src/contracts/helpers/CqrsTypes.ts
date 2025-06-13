@@ -1,6 +1,6 @@
-import { ClassType, StringUtils } from "@vannatta-software/ts-core";
-import { GlobalIdentifier, IDomainEvent } from "@vannatta-software/ts-domain";
-import { Model } from "@vannatta-software/ts-domain";
+import { ClassType, StringUtils } from "@vannatta-software/ts-utils-core";
+import { GlobalIdentifier, IDomainEvent } from "@vannatta-software/ts-utils-domain";
+import { Model } from "@vannatta-software/ts-utils-domain";
 
 export type DTO<T> = Omit<T, "validation" | "copy" | "copyArray" | "_domainEvents">;
 

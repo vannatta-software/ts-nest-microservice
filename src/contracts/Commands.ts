@@ -1,5 +1,5 @@
 import { Example, ExampleType} from '@ts-nest-microservice/domain';
-import { Enumeration, Validation } from "@vannatta-software/ts-domain";
+import { Enumeration, Validation } from "@vannatta-software/ts-utils-domain";
 import { Command, UUID_VALIDATION } from './helpers/CqrsTypes';
 
 export class CreateExampleCommand extends Command<Example> {
