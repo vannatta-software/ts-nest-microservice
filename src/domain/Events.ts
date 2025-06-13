@@ -1,7 +1,8 @@
-import { IDomainEvent } from "@vannatta-software/ts-utils-domain";
+import { IDomainEvent, Model } from "@vannatta-software/ts-utils-domain";
 import { ExampleMetadata } from "./ExampleMetadata";
 import { ExampleType } from "./ExampleType";
-import { DTO } from "@contracts/index";
+
+export type DTO<T> = Omit<T, "validation" | "copy" | "copyArray" | "_domainEvents">;
 
 export class ExampleCreatedEvent implements IDomainEvent {
     dateTimeOccurred: Date = new Date();

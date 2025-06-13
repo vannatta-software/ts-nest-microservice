@@ -1,15 +1,25 @@
 # Progress
 
 ## Current Status
-The initial memory bank has been set up for the TS Nest Microservice Template. All core documentation files (`projectbrief.md`, `productContext.md`, `activeContext.md`, `systemPatterns.md`, `techContext.md`, `progress.md`) have been created and populated with initial content.
+The TS Nest Microservice Template has been significantly enhanced with new database repository types, event bus definitions, and improved client integration. All core documentation files are being updated to reflect these changes.
 
 ## What Works
-- The basic project structure for a NestJS microservice is in place.
-- CQRS patterns (commands, queries, events, handlers) are defined.
-- Multiple event bus implementations (Kafka, RabbitMQ, Redis) are provided as options.
-- MongoDB integration with Mongoose is set up.
-- API and WebSocket modules are present.
-- Swagger documentation utility is included.
+- **Database Integration:**
+    - MongoDB integration with Mongoose is fully functional.
+    - `DatabaseContext` now directly exposes `MongoRepository` instances.
+- **Event Bus System:**
+    - `IEventBus` interface is updated with `publish` (with optional topic) and `subscribe` methods.
+    - `RabbitMQEventBus` is integrated as the primary event bus.
+    - Event bus implementations correctly handle NestJS lifecycle hooks (`OnModuleInit`, `OnModuleDestroy`).
+- **Client Integration:**
+    - `ServiceClient` is refactored to accept an `IEventBus` instance in its constructor.
+    - `ExampleClient` uses the injected `SocketIOEventBus` for client-side eventing.
+    - The `contracts` package is configured for npmjs distribution, with `SocketIOEventBus` exported.
+- **Core Architecture:**
+    - CQRS patterns (commands, queries, events, handlers) are well-defined and extended.
+    - API and WebSocket modules are present.
+    - Swagger documentation utility is included.
+    - File structure has been refactored to organize database repositories into `src/infrastructure/database/{db_type}/` and event buses into `src/infrastructure/cqrs/buses/`.
 
 ## What's Left to Build / Implement
 - **Full Feature Implementation**: The existing "example" modules provide a template, but actual business logic for specific microservices needs to be implemented.
@@ -18,13 +28,12 @@ The initial memory bank has been set up for the TS Nest Microservice Template. A
 - **Error Handling and Observability**: Robust logging, monitoring, and tracing solutions need to be fully integrated and configured.
 - **CI/CD Pipeline**: Automation for building, testing, and deploying the microservice.
 - **Production-Ready Configuration**: Fine-tuning environment variables, scaling parameters, and security settings for production deployment.
-- **Message Broker Configuration**: Specific configuration and connection details for Kafka, RabbitMQ, or Redis in a production environment.
+- **`amqplib` Type Resolution**: The `any` cast workaround for `amqplib` type issues in `RabbitMQEventBus` should be investigated and resolved in a production environment.
 
 ## Known Issues
-- No specific known issues with the template structure itself at this stage.
-- Potential issues may arise during specific feature implementations or integration with external systems.
+- Persistent TypeScript type resolution issues with `amqplib` in `RabbitMQEventBus`, currently bypassed with `any` casts.
 
 ## Evolution of Project Decisions
-- Initial decision to use NestJS and TypeScript has proven effective for building scalable and maintainable microservices.
-- The modular design facilitates easy extension and customization.
-- The choice of multiple event bus options provides flexibility for different deployment scenarios.
+- Shifted from generic repository interfaces to direct exposure of concrete repository instances in `DatabaseContext` for clearer, more specific database interactions.
+- Streamlined infrastructure choices to focus on MongoDB for databases and RabbitMQ for eventing, simplifying the template's default configuration.
+- Refined client architecture to be event-bus agnostic and easily distributable.

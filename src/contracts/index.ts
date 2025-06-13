@@ -5,3 +5,4 @@ export * from './helpers/CqrsTypes';
 export * from './helpers/EventBus';
 export * from './helpers/HttpClient';
 export * from './helpers/ServiceClient';
+export * from './helpers/SocketIOEventBus'; // Export SocketIOEventBus

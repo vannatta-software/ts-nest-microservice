@@ -3,6 +3,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { Module } from '@nestjs/common';
 import { InfrastructureModule } from './infrastructure/infrastructure.module';
 import { ApiModule } from './api/api.module';
+import { AllExceptionsFilter } from '@infrastructure/filters/exception.filter';
 
 @Module({ imports: [ InfrastructureModule, ApiModule ]})
 export class AppModule {}
@@ -18,7 +19,7 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
       SwaggerModule.setup('api-docs', app, document);
 
-  // app.useGlobalFilters(new AllExceptionsFilter())
+  app.useGlobalFilters(new AllExceptionsFilter())
   app.setGlobalPrefix("");
   app.enableCors({
     origin: '*', // Allow all origins

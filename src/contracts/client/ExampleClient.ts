@@ -4,14 +4,15 @@ import * as Queries from '../Queries';
 import { DTO } from '../helpers/CqrsTypes';
 import { Cache, ServiceClient } from '../helpers/ServiceClient';
 import { HttpClient } from '../helpers/HttpClient';
+import { IEventBus } from '../helpers/EventBus'; // Import IEventBus
 
 export interface ExampleCache extends Cache {
     examples?: Example[]
 }
 
 export class ExampleClient extends ServiceClient<ExampleCache> {
-    constructor(url: string) {
-        super(new HttpClient({ baseURL: url }))
+    constructor(url: string, eventBus?: IEventBus) {
+        super(new HttpClient({ baseURL: url }), eventBus);
     }
 
     public onConnect() {

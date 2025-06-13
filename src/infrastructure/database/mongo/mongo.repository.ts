@@ -3,7 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Entity } from '@vannatta-software/ts-utils-domain';
 import { Mediator } from 'src/infrastructure/cqrs/mediator.service';
-import { MongoPipeline } from './mongo.utils';
+import { MongoPipeline } from './mongo.utils'; 
 
 @Injectable()
 export class MongoRepository<T extends Entity> {
