@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@ts-nest-microservice/domain": "^1.0.0",
-    "@vannatta-software/ts-utils-core": "^2.2.0",
+    "@vannatta-software/ts-utils-core": "^2.3.0",
     "axios": "^1.7.8",
     "socket.io-client": "^4.7.4"
   }

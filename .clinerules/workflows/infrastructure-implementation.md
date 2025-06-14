@@ -54,6 +54,24 @@ In this phase, I will implement the infrastructure components that support the d
 
     **My Role**: I will understand the infrastructure components, and generate the Mermaid diagram in `diagrams/infrastructure.md`.
 
+## Update Progress
+
+Upon completion of this phase, update the `memory-bank/progress.md` file to mark this step as completed and all subsequent steps as "Not Started".
+
+For example, after completing "Infrastructure Implementation", the `Workflow Progress` section in `memory-bank/progress.md` should look like this:
+
+```
+## Workflow Progress
+
+- [ ] 01 - Initial Setup
+- [ ] 02 - Domain Discovery
+- [ ] 03 - Domain Implementation
+- [ ] 04 - Contracts Implementation
+- [x] 05 - Infrastructure Implementation
+- [ ] 06 - API Implementation
+- [ ] 07 - Service Client Implementation
+```
+
 ## Next Step
 
-Once the infrastructure components are implemented and integration-tested, proceed to the [Implement API Package](06-api-implementation.md) phase.
+Once the infrastructure components are implemented and integration-tested, proceed to the [Implement API Package](/api-implementation) phase.

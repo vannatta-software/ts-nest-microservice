@@ -28,6 +28,24 @@ This is the first step in setting up the new microservice. It involves transform
 
     Ensure these values are correct for the development environment.
 
+## Update Progress
+
+Upon completion of this phase, update the `memory-bank/progress.md` file to mark this step as completed and all subsequent steps as "Not Started".
+
+For example, after completing "Initial Setup", the `Workflow Progress` section in `memory-bank/progress.md` should look like this:
+
+```
+## Workflow Progress
+
+- [x] 01 - Initial Setup
+- [ ] 02 - Domain Discovery
+- [ ] 03 - Domain Implementation
+- [ ] 04 - Contracts Implementation
+- [ ] 05 - Infrastructure Implementation
+- [ ] 06 - API Implementation
+- [ ] 07 - Service Client Implementation
+```
+
 ## Next Step
 
-Once the `npm run transform` script has been successfully run and the `.env` file reviewed, proceed to the [Domain Discovery](02-domain-discovery.md) phase.
+Once the `npm run transform` script has been successfully run and the `.env` file reviewed, proceed to the [Domain Discovery](/domain-discovery) phase.

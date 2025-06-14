@@ -1,4 +1,4 @@
-import { Example } from '@domain/Example';
+import { Example } from '@ts-nest-microservice/domain/Example';
 import { Module } from '@nestjs/common';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { MongooseModule } from '@nestjs/mongoose';
@@ -32,7 +32,7 @@ import { ConfigModule } from '@nestjs/config';
         NotificationService,
         NotificationGateway,
         AllExceptionsFilter.Provider,
-        EventBus.Provider(EventBusType.RabbitMQ),
+        EventBus.createProvider(EventBusType.Base),
     ],
     exports: [
         MongooseModule,
@@ -40,7 +40,7 @@ import { ConfigModule } from '@nestjs/config';
         Mediator,
         HandlerRegistry,
         NotificationService,
-        EventBus.Name,
+        EventBus,
     ]
 })
 export class InfrastructureModule {}

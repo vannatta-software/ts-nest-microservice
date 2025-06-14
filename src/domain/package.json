@@ -8,8 +8,8 @@
     "build": "tsc --build"
   },
   "dependencies": {
-    "@vannatta-software/ts-utils-core": "^2.0.0",
-    "@vannatta-software/ts-utils-domain": "^2.0.0",
+    "@vannatta-software/ts-utils-core": "^2.3.0",
+    "@vannatta-software/ts-utils-domain": "^2.3.0",
     "ajv": "^8.17.1"
   }
 }

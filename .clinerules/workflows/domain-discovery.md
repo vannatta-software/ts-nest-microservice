@@ -37,6 +37,24 @@ This phase is crucial for defining the core business logic and elements of the n
     *   **`diagrams/events.md`**: This file will list and describe the domain events, including their purpose and key data.
     *   **`diagrams/behaviors.md`**: This file will describe the key behaviors of the service, linking them to the relevant domain elements and events.
 
+## Update Progress
+
+Upon completion of this phase, update the `memory-bank/progress.md` file to mark this step as completed and all subsequent steps as "Not Started".
+
+For example, after completing "Domain Discovery", the `Workflow Progress` section in `memory-bank/progress.md` should look like this:
+
+```
+## Workflow Progress
+
+- [ ] 01 - Initial Setup
+- [x] 02 - Domain Discovery
+- [ ] 03 - Domain Implementation
+- [ ] 04 - Contracts Implementation
+- [ ] 05 - Infrastructure Implementation
+- [ ] 06 - API Implementation
+- [ ] 07 - Service Client Implementation
+```
+
 ## Next Step
 
-Once the Domain Discovery phase is complete and the necessary diagrams and documentation have been generated, proceed to the [Domain Implementation](03-domain-implementation.md) phase.
+Once the Domain Discovery phase is complete and the necessary diagrams and documentation have been generated, proceed to the [Domain Implementation](/domain-implementation) phase.

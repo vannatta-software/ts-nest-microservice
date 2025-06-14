@@ -21,6 +21,24 @@ This is the final phase of building the new microservice. I will define service 
 
     **My Role**: I will understand the API endpoints and the desired methods for each client. I will generate the service client classes, following the patterns in `src/contracts/client/ExampleClient.ts`.
 
+## Update Progress
+
+Upon completion of this phase, update the `memory-bank/progress.md` file to mark this step as completed and all subsequent steps as "Not Started".
+
+For example, after completing "Service Client Implementation", the `Workflow Progress` section in `memory-bank/progress.md` should look like this:
+
+```
+## Workflow Progress
+
+- [ ] 01 - Initial Setup
+- [ ] 02 - Domain Discovery
+- [ ] 03 - Domain Implementation
+- [ ] 04 - Contracts Implementation
+- [ ] 05 - Infrastructure Implementation
+- [ ] 06 - API Implementation
+- [x] 07 - Service Client Implementation
+```
+
 ## Next Step
 
-Once the service clients are implemented, the core implementation of the new microservice is complete. I can now proceed to update the [Service Implementation Progress](progress.md) file and then consider deploying and integrating the service.
+Once the service clients are implemented, the core implementation of the new microservice is complete. I can now proceed to update the [Service Implementation Progress](/progress) file and then consider deploying and integrating the service.

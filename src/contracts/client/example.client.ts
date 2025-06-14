@@ -1,10 +1,8 @@
 import { Example, Events } from '@ts-nest-microservice/domain';
+import { DTO, IEventBus, ServiceClient, Cache } from '@vannatta-software/ts-utils-domain';
+import { HttpClient } from '@vannatta-software/ts-utils-core';
 import * as Commands from '../Commands';
 import * as Queries from '../Queries';
-import { DTO } from '../helpers/CqrsTypes';
-import { Cache, ServiceClient } from '../helpers/ServiceClient';
-import { HttpClient } from '../helpers/HttpClient';
-import { IEventBus } from '../helpers/EventBus'; // Import IEventBus
 
 export interface ExampleCache extends Cache {
     examples?: Example[]
@@ -15,8 +13,10 @@ export class ExampleClient extends ServiceClient<ExampleCache> {
         super(new HttpClient({ baseURL: url }), eventBus);
     }
 
+    public onDisconnect() {}
+
     public onConnect() {
-        this.bindSocket(Events.ExampleCreatedEvent, async (event) => {
+        this.bindEvent(Events.ExampleCreatedEvent, async (event) => {
             await this.publishEvent(event, Events.ExampleCreatedEvent);
             await this.setCacheAsync("CREATE", async () => {
                 const example = await this.getById({ id: event.exampleId });
@@ -24,7 +24,7 @@ export class ExampleClient extends ServiceClient<ExampleCache> {
             });
         });
 
-        this.bindSocket(Events.ExampleMetadataUpdatedEvent, async (event) => {
+        this.bindEvent(Events.ExampleMetadataUpdatedEvent, async (event) => {
             await this.publishEvent(event, Events.ExampleMetadataUpdatedEvent);
             await this.setCacheAsync("UPDATE", async () => {
                 const example = await this.getById({ id: event.exampleId });
@@ -32,7 +32,7 @@ export class ExampleClient extends ServiceClient<ExampleCache> {
             });
         });
 
-        this.bindSocket(Events.ExampleDeletedEvent, async (event) => {
+        this.bindEvent(Events.ExampleDeletedEvent, async (event) => {
             await this.publishEvent(event, Events.ExampleDeletedEvent);
             this.setCache("DELETE", { deletions: [event.exampleId] });
         });
@@ -58,11 +58,11 @@ export class ExampleClient extends ServiceClient<ExampleCache> {
             });
     }
 
-    async delete(exampleId: string): Promise<void> {
+    async delete(id: string): Promise<void> {
         return this.http.delete<void>('/examples/{id}')
-            .execute({ id: exampleId })
+            .execute({ id })
             .then(() => {
-                this.setCache("DELETE", { deletions: [exampleId] });
+                this.setCache("DELETE", { deletions: [id] });
             });
     }
 

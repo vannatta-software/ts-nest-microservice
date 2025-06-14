@@ -1,5 +1,15 @@
 # Progress
 
+## Workflow Progress
+
+- [x] 01 - Initial Setup
+- [x] 02 - Domain Discovery
+- [ ] 03 - Domain Implementation
+- [ ] 04 - Contracts Implementation
+- [ ] 05 - Infrastructure Implementation
+- [ ] 06 - API Implementation
+- [ ] 07 - Service Client Implementation
+
 ## Current Status
 The TS Nest Microservice Template has been significantly enhanced with new database repository types, event bus definitions, and improved client integration. All core documentation files are being updated to reflect these changes.
 

@@ -1,18 +1,15 @@
-import { IEventBus } from '@contracts/helpers/EventBus';
-import { Integration, Symbols } from '@contracts/index';
-import { ClassType } from '@vannatta-software/ts-utils-core'; // Import ClassType
+
+import { ClassType } from '@vannatta-software/ts-utils-core';
 import { ClassProvider, Injectable, Logger } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { HandlerRegistry } from './handler.registry';
-import { RabbitMQEventBus } from './buses/rabbitmq.bus'; // Import RabbitMQEventBus
-import { GooglePubSubEventBus } from './buses/google-pubsub.bus'; // Import GooglePubSubEventBus
-import { RedisEventBus } from './buses/redis.bus'; // Import RedisEventBus
+import { IEventBus, Integration } from '@vannatta-software/ts-utils-domain';
 
 export enum EventBusType {
     RabbitMQ = 'rabbitmq',
     GooglePubSub = 'google-pubsub',
     Redis = 'redis',
-    Base = 'base' // Default base event bus
+    Base = 'base'
 }
 
 export abstract class EventBus implements IEventBus {
@@ -22,7 +19,6 @@ export abstract class EventBus implements IEventBus {
 
     constructor(name?: string) {
         this.logger = new Logger(name ?? "EventBus");
-        // Cleanup old events periodically
         setInterval(() => this.cleanupOldEvents(), this.TTL);
     }
 
@@ -35,7 +31,7 @@ export abstract class EventBus implements IEventBus {
         }
 
         try {
-            await this.handleEvent(integration, topic); // Pass topic to handleEvent
+            await this.handleEvent(integration, topic);
             this.processedEvents.add(key);
         } catch (error) {
             this.logger.error(`Failed to handle event ${key}:`, error);
@@ -43,10 +39,9 @@ export abstract class EventBus implements IEventBus {
         }
     }
 
-    // New abstract method for subscribing
-    public abstract subscribe<TData>(topic: string, handler: (data: TData) => Promise<void>, eventType?: ClassType<TData>): void;
-
-    protected abstract handleEvent(integration: Integration<any>, topic?: string): Promise<void>; // Update signature
+    public abstract subscribe<TData>(topic: string, handler: (data: TData) => Promise<void>): void;
+    public abstract unsubscribe<TData = any>(topic: ClassType<TData>): void;
+    protected abstract handleEvent(integration: Integration<any>, topic?: string): Promise<void>; 
     
     protected generateKey(integration: Integration): string {
         return `${integration.name}:${integration.eventId}`;
@@ -57,35 +52,31 @@ export abstract class EventBus implements IEventBus {
         this.logger.debug('Cleared processed events cache');
     }
 
-    public static Provider(busType: EventBusType): ClassProvider {
+    public static createProvider(busType: EventBusType): ClassProvider {
         let useClass: any;
+        
         switch (busType) {
-            case 'rabbitmq':
-                useClass = RabbitMQEventBus;
+            case EventBusType.RabbitMQ:
+                useClass = require('./buses/rabbitmq.bus').RabbitMQEventBus;
                 break;
-            case 'google-pubsub':
-                useClass = GooglePubSubEventBus;
+            case EventBusType.GooglePubSub:
+                useClass = require('./buses/google-pubsub.bus').GooglePubSubEventBus;
                 break;
-            case 'redis':
-                useClass = RedisEventBus;
+            case EventBusType.Redis:
+                useClass = require('./buses/redis.bus').RedisEventBus;
                 break;
-            case 'base':
+            case EventBusType.Base:
             default:
-                useClass = BaseEventBus;
+                useClass = require('./event.bus').BaseEventBus;
                 break;
         }
 
         return {
-            provide: EventBus.Name,
+            provide: EventBus,
             useClass: useClass
         }
     }
-
-    public static get Name() {
-        return Symbols.EventBus
-    }
 }
-
 @Injectable()
 export class BaseEventBus extends EventBus {
     constructor(
@@ -105,12 +96,13 @@ export class BaseEventBus extends EventBus {
         this.eventEmitter.emit(integration.name, integration.data);
     }
 
-    public subscribe<TData>(topic: string, handler: (data: TData) => Promise<void>, eventType?: ClassType<TData>): void {
-        // For BaseEventBus, subscription is handled by the HandlerRegistry for internal events
-        // and EventEmitter2 for local (e.g., WebSocket) events.
-        // The HandlerRegistry already registers handlers based on event name.
-        // For EventEmitter2, we can directly listen to the topic.
+    public subscribe<TData>(topic: string, handler: (data: TData) => Promise<void>): void {
         this.eventEmitter.on(topic, handler);
         this.logger.debug(`BaseEventBus subscribed to topic: ${topic}`);
+    }
+
+    public unsubscribe<TData = any>(topic: ClassType<TData>): void {
+        this.eventEmitter.removeAllListeners((topic as any).name);
+        this.logger.debug(`BaseEventBus unsubscribed from topic: ${(topic as any).name}`);
     }
 }

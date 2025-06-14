@@ -1,9 +1,7 @@
 import { Injectable, Logger, Type } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { HandlerRegistry } from './handler.registry';
-import { Entity, IDomainEvent, Model } from '@vannatta-software/ts-utils-domain';
-import Validator from '@vannatta-software/ts-utils-core/dist/Validator';
-import { Command, DTO, Query } from '@contracts/index';
+import { Command, DTO, Entity, IDomainEvent, Model, Query } from '@vannatta-software/ts-utils-domain';
 import { ApiException } from '../filters/exception.filter';
 
 @Injectable()
@@ -16,38 +14,10 @@ export class Mediator {
     ) {}
     
     private validate(model: Model): void {
-        const validation = model.validation;
-        if (!validation) return;
+        const validation = Model.validate(model);
 
-        const modelErrors: { [key: string]: string[] } = {};
-        const validator = new Validator();
-
-        Object.entries(validation).forEach(([field, rules]) => {
-            try {
-                const value = model[field];
-                const validationRules = rules.reduce((acc, rule) => ({
-                    ...acc,
-                    ...(rule.required && { required: true }),
-                    ...((rule.pattern && (rule.required || value)) && { format: rule.pattern }),
-                    ...(rule.min && { min: rule.min }),
-                    ...(rule.max && { max: rule.max }),
-                    ...(rule.type === 'email' && { email: true }),
-                    ...(rule.type === 'url' && { url: true }),
-                    ...(rule.enum && { oneOf: rule.enum }),
-                }), {});
-    
-                validator.validate(value, validationRules);
-
-                if (validator.errors.length > 0) {
-                    modelErrors[field] = validator.errors;
-                }
-            } catch (error) {
-                modelErrors[field] = error.toString();
-            }
-        });
-
-        if (Object.keys(modelErrors).length > 0) {
-            throw new ApiException('Validation failed', modelErrors);
+        if (!validation.isValid) {
+            throw new ApiException('Validation failed', validation.errors);
         }
     }
 

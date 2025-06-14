@@ -1,6 +1,6 @@
 import { Example, ExampleType} from '@ts-nest-microservice/domain';
-import { Enumeration, Validation } from "@vannatta-software/ts-utils-domain";
-import { Command, UUID_VALIDATION } from './helpers/CqrsTypes';
+import { Pattern } from '@vannatta-software/ts-utils-core';
+import { Command, Validation } from "@vannatta-software/ts-utils-domain";
 
 export class CreateExampleCommand extends Command<Example> {
     @Validation({ 
@@ -28,7 +28,7 @@ export class CreateExampleCommand extends Command<Example> {
     @Validation({ 
         required: false,
         type: 'string',
-        enum: ExampleType.Types
+        enum: new ExampleType().getNames(),
     })
     public type?: string = "";
 }
@@ -37,7 +37,7 @@ export class UpdateExampleCommand extends Command<Example> {
     @Validation({ 
         required: true,
         type: 'string',
-        pattern: UUID_VALIDATION
+        pattern: Pattern.UUID,
     })
     public id: string = "";
 
@@ -61,7 +61,7 @@ export class UpdateExampleCommand extends Command<Example> {
     @Validation({ 
         type: 'number',
         required: false,
-        enum: ExampleType.Types
+        enum: new ExampleType().getNames(),
     })
     public type?: number;
 }
@@ -70,7 +70,7 @@ export class DeleteExampleCommand extends Command<boolean> {
     @Validation({ 
         required: true,
         type: 'string',
-        pattern: UUID_VALIDATION
+        pattern: Pattern.UUID
     })
     public id: string = "";
 }
@@ -79,7 +79,7 @@ export class UpdateVersionCommand extends Command<boolean> {
     @Validation({ 
         required: true,
         type: 'string',
-        pattern: UUID_VALIDATION
+        pattern: Pattern.UUID
     })
     public id: string;
 

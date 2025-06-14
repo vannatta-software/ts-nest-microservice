@@ -1,18 +1,20 @@
 import { Inject } from '@nestjs/common';
-import * as Contracts from '@contracts/index';
-import { Example } from '@domain/Example';
-import { CommandHandler, ICommandHandler } from '@infrastructure/cqrs/handler.registry';
+import * as Contracts from '@ts-nest-microservice/contracts/index';
+import { Example } from '@ts-nest-microservice/domain/Example';
+import { CommandHandler } from '@infrastructure/cqrs/handler.registry';
 import { DatabaseContext } from '@infrastructure/database/database.context';
 import { NotFoundException } from '@infrastructure/filters/exception.filter';
-import { ExampleType } from '@domain/ExampleType';
-import { UniqueIdentifier } from '@vannatta-software/ts-utils-domain';
-import { ExampleMetadata } from '@domain/ExampleMetadata';
+import { ExampleType } from '@ts-nest-microservice/domain/ExampleType';
+import { ICommandHandler, UniqueIdentifier } from '@vannatta-software/ts-utils-domain';
+import { ExampleMetadata } from '@ts-nest-microservice/domain/ExampleMetadata';
+import { EventBus } from '@infrastructure/cqrs/event.bus';
+import { IEventBus } from '@vannatta-software/ts-utils-domain';
 
 @CommandHandler(Contracts.CreateExampleCommand)
 export class CreateExampleHandler implements ICommandHandler<Contracts.CreateExampleCommand> {
     constructor(
         private readonly db: DatabaseContext,
-        @Inject(Contracts.EventBus) private readonly bus: Contracts.IEventBus
+        @Inject(EventBus) private readonly bus: IEventBus
     ) {}
 
     async handle(command: Contracts.CreateExampleCommand): Promise<Example> {

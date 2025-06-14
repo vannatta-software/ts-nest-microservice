@@ -47,6 +47,24 @@ In this phase, I will define the communication contracts for the new microservic
 
     **My Role**: I will understand the high-level flow, and generate the Mermaid diagram in `diagrams/cqrs.md`.
 
+## Update Progress
+
+Upon completion of this phase, update the `memory-bank/progress.md` file to mark this step as completed and all subsequent steps as "Not Started".
+
+For example, after completing "Contracts Implementation", the `Workflow Progress` section in `memory-bank/progress.md` should look like this:
+
+```
+## Workflow Progress
+
+- [ ] 01 - Initial Setup
+- [ ] 02 - Domain Discovery
+- [ ] 03 - Domain Implementation
+- [x] 04 - Contracts Implementation
+- [ ] 05 - Infrastructure Implementation
+- [ ] 06 - API Implementation
+- [ ] 07 - Service Client Implementation
+```
+
 ## Next Step
 
-Once the commands, queries, and integration events are defined and the CQRS flow is documented, proceed to the [Implement Infrastructure Package](05-infrastructure-implementation.md) phase.
+Once the commands, queries, and integration events are defined and the CQRS flow is documented, proceed to the [Implement Infrastructure Package](/infrastructure-implementation) phase.

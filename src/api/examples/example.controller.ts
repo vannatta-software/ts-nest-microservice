@@ -4,8 +4,8 @@ import {
     Put, Query
 } from '@nestjs/common';
 import { ApiOperation } from '@nestjs/swagger';
-import * as Contracts from '@contracts/index';
-import { Example } from '@domain/Example';
+import * as Contracts from '@ts-nest-microservice/contracts/index';
+import { Example } from '@ts-nest-microservice/domain/Example';
 import { CommandModel, QueryModel } from '@infrastructure/swagger/swagger.utils';
 import { Mediator } from '@infrastructure/cqrs/mediator.service';
 

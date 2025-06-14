@@ -1,15 +1,13 @@
 import { Inject, Injectable, Type } from '@nestjs/common';
-import * as Contracts from '@contracts/helpers/CqrsTypes';
 import { ClassType } from '@vannatta-software/ts-utils-core';
-
-export * from '@contracts/helpers/CqrsTypes';
+import { Command, ICommandHandler, IEventHandler, IIntegrationHandler, IQueryHandler, Query } from '@vannatta-software/ts-utils-domain';
 
 // Decorator metadata keys
 export const COMMAND_HANDLER_METADATA = 'COMMAND_HANDLER_METADATA';
 export const QUERY_HANDLER_METADATA = 'QUERY_HANDLER_METADATA';
 export const EVENT_HANDLER_METADATA = 'EVENT_HANDLER_METADATA';
 
-export function CommandHandler<TCommand extends Contracts.Command<TResult>, TResult>(
+export function CommandHandler<TCommand extends Command<TResult>, TResult>(
     command: Type<TCommand>
 ): ClassDecorator {
     return function (target: any) {
@@ -28,7 +26,7 @@ export function CommandHandler<TCommand extends Contracts.Command<TResult>, TRes
     };
 }
 
-export function QueryHandler<TQuery extends Contracts.Query<TResult>, TResult>(
+export function QueryHandler<TQuery extends Query<TResult>, TResult>(
     query: Type<TQuery>
 ): ClassDecorator {
     return function (target: any) {
@@ -85,46 +83,46 @@ export function IntegrationHandler(event: ClassType<any>): ClassDecorator {
 
 @Injectable()
 export class HandlerRegistry {
-    private commandHandlers = new Map<string, Contracts.ICommandHandler<Contracts.Command<any>>>();
-    private queryHandlers = new Map<string, Contracts.IQueryHandler<Contracts.Query<any>>>();
-    private eventHandlers = new Map<string, Contracts.IEventHandler<any>[]>();
-    private integrationHandlers = new Map<string, Contracts.IIntegrationHandler<any>[]>();
+    private commandHandlers = new Map<string, ICommandHandler<Command<any>>>();
+    private queryHandlers = new Map<string, IQueryHandler<Query<any>>>();
+    private eventHandlers = new Map<string, IEventHandler<any>[]>();
+    private integrationHandlers = new Map<string, IIntegrationHandler<any>[]>();
 
-    registerIntegration(event: string, handler: Contracts.IIntegrationHandler<any>) {
+    registerIntegration(event: string, handler: IIntegrationHandler<any>) {
         const handlers = this.getIntegrationHandlers(event);
         handlers.push(handler);
         this.integrationHandlers.set(event, handlers);
     }
 
-    registerCommandHandler<TCommand extends Contracts.Command<TResult>, TResult>(
+    registerCommandHandler<TCommand extends Command<TResult>, TResult>(
         command: Type<TCommand>, 
-        handler: Contracts.ICommandHandler<TCommand>
+        handler: ICommandHandler<TCommand>
     ) {
         this.commandHandlers.set(command.name, handler);
     }
 
-    registerQueryHandler<TQuery extends Contracts.Query<TResult>, TResult>(
+    registerQueryHandler<TQuery extends Query<TResult>, TResult>(
         query: Type<TQuery>, 
-        handler: Contracts.IQueryHandler<TQuery>
+        handler: IQueryHandler<TQuery>
     ) {
         this.queryHandlers.set(query.name, handler);
     }
 
-    registerEventHandler(event: Type<any>, handler: Contracts.IEventHandler<any>) {
+    registerEventHandler(event: Type<any>, handler: IEventHandler<any>) {
         const handlers = this.eventHandlers.get(event.name) || [];
         handlers.push(handler);
         this.eventHandlers.set(event.name, handlers);
     }
 
-    getCommandHandler<TCommand extends Contracts.Command<TResult>, TResult>(
+    getCommandHandler<TCommand extends Command<TResult>, TResult>(
         commandName: string
-    ): Contracts.ICommandHandler<TCommand> | undefined {
+    ): ICommandHandler<TCommand> | undefined {
         return this.commandHandlers.get(commandName);
     }
 
-    getQueryHandler<TQuery extends Contracts.Query<TResult>, TResult>(
+    getQueryHandler<TQuery extends Query<TResult>, TResult>(
         queryName: string
-    ): Contracts.IQueryHandler<TQuery> | undefined {
+    ): IQueryHandler<TQuery> | undefined {
         return this.queryHandlers.get(queryName);
     }
 

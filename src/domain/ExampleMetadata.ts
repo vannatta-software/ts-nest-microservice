@@ -27,4 +27,5 @@ export class ExampleMetadata extends ValueObject {
         yield this.description;
         yield this.version;
     }
+
 }

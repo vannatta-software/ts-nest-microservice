@@ -21,13 +21,17 @@ module.exports = {
         tsconfig: './tsconfig.json',
         diagnostics: {
             ignoreCodes: [151001] // example of ignoring certain TypeScript errors, adjust as necessary
-        }
+        },
+        isolatedModules: false // Added to help with Reflect.getMetadata
     }]
   },
   testRegex: '(test/.*|(\\.|/)(test|spec))\\.tsx?$',
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
   moduleNameMapper: {
-      "@domain/(.*)": "<rootDir>/domain/$1",
+      "^@ts-nest-microservice/domain$": "<rootDir>/src/domain/dist", // Point to dist
+      "^@ts-nest-microservice/domain/(.*)": "<rootDir>/src/domain/dist/$1", // Point to dist
+      "^@ts-nest-microservice/contracts$": "<rootDir>/src/contracts/dist", // Point to dist
+      "^@ts-nest-microservice/contracts/(.*)": "<rootDir>/src/contracts/dist/$1", // Point to dist
       "src/(.*)": "<rootDir>/src/$1"
   }
 };

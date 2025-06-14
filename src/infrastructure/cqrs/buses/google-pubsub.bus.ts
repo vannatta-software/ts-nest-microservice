@@ -1,10 +1,10 @@
 import { Injectable, OnModuleInit, OnModuleDestroy } from '@nestjs/common';
-import { Integration } from '@contracts/index';
 import { EventBus } from '../event.bus';
 import { HandlerRegistry } from '../handler.registry';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { PubSub, Topic, Subscription } from '@google-cloud/pubsub';
 import { ClassType } from '@vannatta-software/ts-utils-core';
+import { Integration } from '@vannatta-software/ts-utils-domain';
 
 @Injectable()
 export class GooglePubSubEventBus extends EventBus implements OnModuleInit, OnModuleDestroy {
@@ -48,15 +48,32 @@ export class GooglePubSubEventBus extends EventBus implements OnModuleInit, OnMo
         }
     }
 
-    public async subscribe<TData>(topicName: string, handler: (data: TData) => Promise<void>, eventType?: ClassType<TData>): Promise<void> {
+    public async subscribe<TData>(topicName: string, handler: (data: TData) => Promise<void>): Promise<void> {
         if (this.subscriptions.has(topicName)) {
             this.logger.warn(`Already subscribed to topic: ${topicName}`);
             return;
         }
-        await this.setupSubscription(topicName, handler, eventType);
+        await this.setupSubscription(topicName, handler);
     }
 
-    private async setupSubscription<TData>(topicName: string, handler?: (data: TData) => Promise<void>, eventType?: ClassType<TData>): Promise<void> {
+    public async unsubscribe<TData = any>(topic: ClassType<TData>): Promise<void> {
+        const topicName = (topic as any).name; // Use topic.name as the string identifier
+        const subscription = this.subscriptions.get(topicName);
+        if (subscription) {
+            try {
+                await subscription.close();
+                this.subscriptions.delete(topicName);
+                this.logger.log(`Unsubscribed from topic: ${topicName}`);
+            } catch (error) {
+                this.logger.error(`Error unsubscribing from topic ${topicName}:`, error);
+                // Do not re-throw as the interface specifies void
+            }
+        } else {
+            this.logger.warn(`No active subscription found for topic: ${topicName}`);
+        }
+    }
+
+    private async setupSubscription<TData>(topicName: string, handler?: (data: TData) => Promise<void>): Promise<void> {
         const topic: Topic = this.pubSubClient.topic(topicName);
         const subscriptionName = `${topicName}-subscription-${process.env.NODE_ENV || 'development'}`;
         let subscription: Subscription;

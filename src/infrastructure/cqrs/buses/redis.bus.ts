@@ -1,10 +1,10 @@
 import { Injectable, OnModuleInit, OnModuleDestroy } from '@nestjs/common';
-import { Integration } from '@contracts/index';
 import { EventBus } from '../event.bus';
 import { HandlerRegistry } from '../handler.registry';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { Redis } from 'ioredis';
 import { ClassType } from '@vannatta-software/ts-utils-core';
+import { Integration } from '@vannatta-software/ts-utils-domain';
 
 @Injectable()
 export class RedisEventBus extends EventBus implements OnModuleInit, OnModuleDestroy {
@@ -48,15 +48,15 @@ export class RedisEventBus extends EventBus implements OnModuleInit, OnModuleDes
         this.eventEmitter.emit(integration.name, integration.data);
     }
 
-    public async subscribe<TData>(topicName: string, handler: (data: TData) => Promise<void>, eventType?: ClassType<TData>): Promise<void> {
+    public async subscribe<TData>(topicName: string, handler: (data: TData) => Promise<void>): Promise<void> {
         if (this.subscriptions.has(topicName)) {
             this.logger.warn(`Already subscribed to topic: ${topicName}`);
             return;
         }
-        await this.setupSubscription(topicName, handler, eventType);
+        await this.setupSubscription(topicName, handler);
     }
 
-    private async setupSubscription<TData>(topicName: string, handler?: (data: TData) => Promise<void>, eventType?: ClassType<TData>): Promise<void> {
+    private async setupSubscription<TData>(topicName: string, handler?: (data: TData) => Promise<void>): Promise<void> {
         await this.subscriber.subscribe(topicName);
         
         const messageHandler = async (channel: string, message: string) => {
@@ -83,7 +83,32 @@ export class RedisEventBus extends EventBus implements OnModuleInit, OnModuleDes
         this.logger.debug(`Redis subscribed to topic: ${topicName}`);
     }
 
+    public async unsubscribe<TData = any>(topic: ClassType<TData>): Promise<void> {
+        const topicName = (topic as any).name;
+        if (this.subscriptions.has(topicName)) {
+            try {
+                await this.subscriber.unsubscribe(topicName);
+                this.subscriptions.delete(topicName);
+                this.logger.log(`Unsubscribed from topic: ${topicName}`);
+            } catch (error) {
+                this.logger.error(`Error unsubscribing from topic ${topicName}:`, error);
+                // Do not re-throw as the interface specifies void
+            }
+        } else {
+            this.logger.warn(`No active subscription found for topic: ${topicName}`);
+        }
+    }
+
     async onModuleDestroy() {
+        for (const topicName of this.subscriptions.keys()) {
+            try {
+                await this.subscriber.unsubscribe(topicName);
+                this.logger.log(`Unsubscribed from topic ${topicName} during destroy.`);
+            } catch (error) {
+                this.logger.error(`Error unsubscribing from topic ${topicName} during destroy:`, error);
+            }
+        }
+        this.subscriptions.clear();
         await this.redis.quit();
         await this.subscriber.quit();
         this.logger.log('Redis Event Bus destroyed.');

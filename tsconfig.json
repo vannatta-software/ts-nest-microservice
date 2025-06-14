@@ -18,8 +18,8 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
-      "@domain/*": ["src/domain/*"],
-      "@contracts/*": ["src/contracts/*"],
+      "@ts-nest-microservice/domain/*": ["src/domain/*"],
+      "@ts-nest-microservice/contracts/*": ["src/contracts/*"],
       "@api/*": ["src/api/*"],
       "@infrastructure/*": ["src/infrastructure/*"],
       "@ts-nest-microservice/domain": ["src/domain/index"],
@@ -35,6 +35,7 @@
   ],
   "exclude": [
     "node_modules",
+    "**/*.json",
     "dist",
     "src/**/*.spec.ts",
     "src/**/*.test.ts"

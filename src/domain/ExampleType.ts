@@ -7,8 +7,4 @@ export class ExampleType extends Enumeration {
     constructor(partial?: Partial<ExampleType>) {
         super(partial)
     }
-
-    public static get Types() {
-        return new ExampleType().getAllInstances().map(t => t.name)
-    }
 }

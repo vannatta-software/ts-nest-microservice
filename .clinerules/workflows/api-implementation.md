@@ -71,6 +71,24 @@ In this phase, I will build the API layer of the microservice, which exposes its
 
     **My Role**: I will provide guidance on structuring E2E tests and setting up the test environment.
 
+## Update Progress
+
+Upon completion of this phase, update the `memory-bank/progress.md` file to mark this step as completed and all subsequent steps as "Not Started".
+
+For example, after completing "API Implementation", the `Workflow Progress` section in `memory-bank/progress.md` should look like this:
+
+```
+## Workflow Progress
+
+- [ ] 01 - Initial Setup
+- [ ] 02 - Domain Discovery
+- [ ] 03 - Domain Implementation
+- [ ] 04 - Contracts Implementation
+- [ ] 05 - Infrastructure Implementation
+- [x] 06 - API Implementation
+- [ ] 07 - Service Client Implementation
+```
+
 ## Next Step
 
-Once the API layer is implemented and E2E tested, proceed to the [Implement Contracts Service Client](07-service-client-implementation.md) phase.
+Once the API layer is implemented and E2E tested, proceed to the [Implement Contracts Service Client](/service-client-implementation) phase.

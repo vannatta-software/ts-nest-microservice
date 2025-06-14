@@ -1,10 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { Events } from '@domain/index';
-import { IEventHandler } from '@contracts/index';
+import { Events } from '@ts-nest-microservice/domain/index';
 import { NotificationService } from 'src/infrastructure/websockets/notification.service';
 import { EventHandler } from 'src/infrastructure/cqrs/handler.registry';
-
-// ExampleCreatedEvent
+import { IEventHandler } from '@vannatta-software/ts-utils-domain';
 
 @EventHandler(Events.ExampleCreatedEvent)
 export class ExampleCreatedHandler implements IEventHandler<Events.ExampleCreatedEvent> {

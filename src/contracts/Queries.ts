@@ -1,6 +1,6 @@
 import { Example } from '@ts-nest-microservice/domain';
-import { Validation } from "@vannatta-software/ts-utils-domain";
-import { Query, UUID_VALIDATION } from "./helpers/CqrsTypes";
+import { Pattern } from '@vannatta-software/ts-utils-core';
+import { Query, Validation } from "@vannatta-software/ts-utils-domain";
 
 export class GetAllExamplesQuery extends Query<Example[]> {
     @Validation({ 
@@ -15,7 +15,7 @@ export class GetExampleByIdQuery extends Query<Example> {
     @Validation({ 
         required: true,
         type: 'string',
-        pattern: UUID_VALIDATION
+        pattern: Pattern.UUID,
     })
     public id: string = "";
 }
