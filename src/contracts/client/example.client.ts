@@ -17,7 +17,6 @@ export class ExampleClient extends ServiceClient<ExampleCache> {
 
     public onConnect() {
         this.bindEvent(Events.ExampleCreatedEvent, async (event) => {
-            await this.publishEvent(event, Events.ExampleCreatedEvent);
             await this.setCacheAsync("CREATE", async () => {
                 const example = await this.getById({ id: event.exampleId });
                 return { examples: [example] };
@@ -25,7 +24,6 @@ export class ExampleClient extends ServiceClient<ExampleCache> {
         });
 
         this.bindEvent(Events.ExampleMetadataUpdatedEvent, async (event) => {
-            await this.publishEvent(event, Events.ExampleMetadataUpdatedEvent);
             await this.setCacheAsync("UPDATE", async () => {
                 const example = await this.getById({ id: event.exampleId });
                 return { examples: [example] };
@@ -33,7 +31,6 @@ export class ExampleClient extends ServiceClient<ExampleCache> {
         });
 
         this.bindEvent(Events.ExampleDeletedEvent, async (event) => {
-            await this.publishEvent(event, Events.ExampleDeletedEvent);
             this.setCache("DELETE", { deletions: [event.exampleId] });
         });
     }
